@@ -1,2 +1,2 @@
-# site-Alfabeta-Refor-o-Escolar
+# site-Alfabeta-Reforco-Escolar
 site para professores do alfabeta
