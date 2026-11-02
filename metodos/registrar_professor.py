@@ -1,4 +1,4 @@
-from classes.Professor import professor
+from classes.professor import Professor
 
 def registrar_professor(lista_professores):
     print("--REGISTRO DE NOVO PROFESSOR--")    
