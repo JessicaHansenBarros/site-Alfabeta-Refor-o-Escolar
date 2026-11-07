@@ -1,7 +1,11 @@
 from metodos.registrar_professor import registrar_professor
+from classes.professor import Professor
+from db.banco_professores import carregar_professores
+
 
 def menu_inicial():
-    lista_professores = []
+    dados_carregados = carregar_professores()
+    lista_professores = [Professor.from_dict(d) for d in dados_carregados]
     while True:
         print("--MENU--\n")
         print("1: Criar nova conta")
@@ -16,6 +20,7 @@ def menu_inicial():
             pass
 
         elif opção=="3":
+            print("Encerrando...")
             break
         else:
             print("Opção inválida! Digite (1, 2 ou 3)")

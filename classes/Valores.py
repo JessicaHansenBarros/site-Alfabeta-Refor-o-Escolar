@@ -1,34 +1,34 @@
 from dataclasses import dataclass
-from aluno import aluno
+from classes.aluno import Aluno
 @dataclass
 
-class AlunoFundamentalColetivo(aluno):
+class AlunoFundamentalColetivo(Aluno):
     def __init__(self, nome, data_aula):
         super().__init__(nome, data_aula)
         self.TipoDeAaula = "Fundamental Coletivo"
         self.valor = 9.92
 
-class AlunoFundamentalIndividual(aluno):
+class AlunoFundamentalIndividual(Aluno):
     def __init__(self, nome, data_aula):
         super().__init__(nome, data_aula)
-        self.TipoDeAaula = "Fundamental Individual"
+        self.TipoDeAula = "Fundamental Individual"
         self.valor = 16.54
 
-class AlunoMedioColetivo(aluno):
+class AlunoMedioColetivo(Aluno):
     def __init__(self, nome, data_aula):
         super().__init__(nome, data_aula)
-        self.TipoDeAaula = "Médio Coletivo"
+        self.TipoDeAula = "Médio Coletivo"
         self.valor = 16.54
 
-class AlunoMedioIndividual(aluno):
+class AlunoMedioIndividual(Aluno):
     def __init__(self, nome, data_aula):
         super().__init__(nome, data_aula)
-        self.TipoDeAaula = "Médio Individual"
+        self.TipoDeAula = "Médio Individual"
         self.valor = 19.85
 
-class AlunoFimDeSemana(aluno):
+class AlunoFimDeSemana(Aluno):
     def __init__(self, nome, data_aula):
         super().__init__(nome, data_aula)
-        self.TipoDeAaula = "Fim de Semana"
+        self.TipoDeAula = "Fim de Semana"
         self.valor = 37.50
 
