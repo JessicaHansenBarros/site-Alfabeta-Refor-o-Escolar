@@ -7,7 +7,7 @@ def menu_inicial():
     dados_carregados = carregar_professores()
     lista_professores = [Professor.from_dict(d) for d in dados_carregados]
     while True:
-        print("--MENU--\n")
+        print("\n--MENU--\n")
         print("1: Criar nova conta")
         print("2: Fazer login")
         print("3: Sair")
