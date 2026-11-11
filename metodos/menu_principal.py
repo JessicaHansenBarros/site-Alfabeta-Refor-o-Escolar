@@ -1,4 +1,5 @@
 from metodos.adicionar_aluno import adicionar_aluno
+from metodos.fim_do_mes import limpar_historico
 
 def menu_principal():
     lista_alunos=[]
@@ -21,6 +22,6 @@ def menu_principal():
         elif opção=="4":
             pass
         elif opção=="5":
-            pass
+            limpar_historico(lista_alunos)
         else:
             print("Opção inválida!")

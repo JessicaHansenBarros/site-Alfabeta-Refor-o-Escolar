@@ -6,6 +6,7 @@ from classes.valores import AlunoMedioColetivo
 
 def adicionar_aluno(lista_alunos):
     nome=input("Nome do aluno: ")
+    #no proximo projeto adicionar a função do calendário
     data_aula = input("Data da aula: ")
 
 
