@@ -1,11 +1,14 @@
-from classes.valores import AlunoMedioIndividual
-from classes.valores import AlunoFimDeSemana
-from classes.valores import AlunoFundamentalColetivo
-from classes.valores import AlunoFundamentalIndividual
-from classes.valores import AlunoMedioColetivo
+from db.banco_alunos import salvar_alunos
 
-def adicionar_aluno(lista_alunos):
+from classes.Valores import AlunoMedioIndividual
+from classes.Valores import AlunoFimDeSemana
+from classes.Valores import AlunoFundamentalColetivo
+from classes.Valores import AlunoFundamentalIndividual
+from classes.Valores import AlunoMedioColetivo
+
+def adicionar_aluno(lista_alunos, professor = None):
     nome=input("Nome do aluno: ")
+    #no proximo projeto adicionar a função do calendário
     data_aula = input("Data da aula: ")
 
 
@@ -33,9 +36,14 @@ def adicionar_aluno(lista_alunos):
         elif opção=="5":
             novo_aluno =AlunoFimDeSemana(nome,data_aula)  
             break
-        
-    lista_alunos.append(novo_aluno)
 
+    if professor:
+        novo_aluno.id_professor = professor.id
+    
+    lista_alunos.append(novo_aluno)
     lista_alunos.sort(key=lambda x:x.data_aula)
 
-    print("--ALUNO ADICIONADO COM SUCESSO, RETORNANDO AO MENU--\n")
+    salvar_alunos(lista_alunos)
+
+
+    print("--ALUNO ADICIONADO E SALVO COM SUCESSO, RETORNANDO AO MENU--\n")
