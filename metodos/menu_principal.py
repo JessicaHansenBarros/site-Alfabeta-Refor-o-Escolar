@@ -1,8 +1,11 @@
 from metodos.adicionar_aluno import adicionar_aluno
 from metodos.fim_do_mes import limpar_historico
+from classes.aluno import Aluno
+from db.banco_alunos import carregar_alunos
 
-def menu_principal():
-    lista_alunos=[]
+def menu_principal(professor):
+    dados_carregados = carregar_alunos()
+    lista_alunos = [Aluno.from_dict(d) for d in dados_carregados]
     while True:
         print("\n--MENU PRINCIPAL--\n")
         print("1: Adicionar aluno")
@@ -10,11 +13,12 @@ def menu_principal():
         print("3: Alterar aluno")
         print("4: Histórico de aulas")
         print("5: Fim do mês")
+        print("6: Deslogar")
 
         opção=input("Escolha (1, 2, 3, 4 ou 5): ").strip()
 
         if opção=="1":
-            adicionar_aluno(lista_alunos)
+            adicionar_aluno(lista_alunos, professor)
         elif opção=="2":
             pass
         elif opção=="3":
@@ -23,5 +27,7 @@ def menu_principal():
             pass
         elif opção=="5":
             limpar_historico(lista_alunos)
+        elif opção=="6":
+            break
         else:
             print("Opção inválida!")
