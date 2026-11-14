@@ -5,7 +5,7 @@ from classes.aluno import Aluno
 class AlunoFundamentalColetivo(Aluno):
     def __init__(self, nome, data_aula):
         super().__init__(nome, data_aula)
-        self.TipoDeAaula = "Fundamental Coletivo"
+        self.TipoDeAula = "Fundamental Coletivo"
         self.valor = 9.92
 
 class AlunoFundamentalIndividual(Aluno):
