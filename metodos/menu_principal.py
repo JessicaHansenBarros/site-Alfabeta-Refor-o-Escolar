@@ -1,5 +1,7 @@
 from metodos.adicionar_aluno import adicionar_aluno
 from metodos.fim_do_mes import limpar_historico
+from metodos.historico_aulas import exibir_historico
+from metodos.salario_desse_mes import calcular_salario
 from classes.aluno import Aluno
 from db.banco_alunos import carregar_alunos
 
@@ -20,11 +22,11 @@ def menu_principal(professor):
         if opção=="1":
             adicionar_aluno(lista_alunos, professor)
         elif opção=="2":
-            pass
+            calcular_salario(lista_alunos, professor)
         elif opção=="3":
             pass
         elif opção=="4":
-            pass
+            exibir_historico(lista_alunos, professor)
         elif opção=="5":
             limpar_historico(lista_alunos)
         elif opção=="6":

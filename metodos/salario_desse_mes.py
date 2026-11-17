@@ -1,21 +1,33 @@
-def calcular_salario(lista_alunos):
+def calcular_salario(lista_alunos, professor=None):
     print("\n--CALCULAR SALÁRIO--\n")
-    print("O usuário tem vale transporte?\n")
 
+    if professor is not None:
+        alunos_prof = [a for a in lista_alunos if a.id_professor == professor.id]
+    else:
+        alunos_prof = lista_alunos
+
+    if not alunos_prof:
+        print("Nenhuma aula registrada para calcular o salário.")
+        return
+
+    total_aulas = sum(aluno.valor for aluno in alunos_prof)
+
+    print("O usuário tem vale transporte?\n")
     print("1: Sim")
     print("2: Não")
     opção = input("Escolha (1 ou 2): ").strip()
 
-    if opção=="1":
-        total = 0
-        passe = 0
-        for aluno in lista_alunos:
-            passe += aluno.data_aula
-            total += aluno.valor
-        print("\nSeu salário é de:" ,total)
-    elif opção=="2":
-        total = 0
-        for aluno in lista_alunos:
-            total += aluno.valor
-        print("\nSeu salário é de:" ,total)
-    
+    if opção == "1":
+        valor_dia = float(input("Valor diário do vale-transporte (ida + volta): R$ ").replace(",", "."))
+        dias_trabalhados = {aluno.data_aula for aluno in alunos_prof}  # set evita contar dias repetidos
+        total_passe = len(dias_trabalhados) * valor_dia
+        total_final = total_aulas + total_passe
+
+        print(f"\nAulas: R$ {total_aulas:.2f}")
+        print(f"Vale-transporte ({len(dias_trabalhados)} dia(s)): R$ {total_passe:.2f}")
+        print(f"Seu salário total é de: R$ {total_final:.2f}")
+
+    elif opção == "2":
+        print(f"\nSeu salário é de: R$ {total_aulas:.2f}")
+    else:
+        print("Opção inválida!")
