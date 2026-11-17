@@ -1,28 +1,14 @@
-import json
-import os
+from db.conexao import SessionLocal
+from db.models import ProfessorDB
 
-CAMINHO_DB =  os.path.join(os.path.dirname(__file__), "dataBase_professor.json")
+def salvar_professor(nome, email, login, senha):
+    with SessionLocal() as session:
+        novo_prof = ProfessorDB(nome=nome, email=email, login=login, senha=senha)
+        session.add(novo_prof)
+        session.commit()
+        session.refresh(novo_prof)  # Atualiza com o ID gerado pelo banco
+        return novo_prof
 
-# Carrega os professores da lista JSON
-def carregar_professores():
-
-    # Procura o arquivo, se não houver ou estiver vazio retorna uma lista vazia.
-    if not os.path.exists(CAMINHO_DB) or os.path.getsize(CAMINHO_DB) == 0:
-        return []
-
-    try:
-        with open(CAMINHO_DB, "r", encoding = "utf-8") as f:
-            return json.load(f)
-
-    except json.JSONDecodeError:
-        return []
-
-
-# Converte a lista de professores pra dict e salva no arquivo JSON
-def salvar_professores(lista_professores):
-    dados_pra_salvar = [prof.to_dict() for prof in lista_professores]
-
-    with open(CAMINHO_DB, "w", encoding = "utf-8") as f:
-        # indent=4 formata e deixa o JSON legível.
-        # ensure_ascii=False preserva os acentos(ex: 'Cauã', 'Matemática')
-        json.dump(dados_pra_salvar, f, indent=4, ensure_ascii = False)
+def buscar_professor_login(login, senha):
+    with SessionLocal() as session:
+        return session.query(ProfessorDB).filter_by(login=login, senha=senha).first()

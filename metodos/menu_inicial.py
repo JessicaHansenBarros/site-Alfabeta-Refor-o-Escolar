@@ -1,26 +1,21 @@
 from metodos.registrar_professor import registrar_professor
-from classes.professor import Professor
-from db.banco_professores import carregar_professores
 from metodos.login_professor import login_professor
 
 
 def menu_inicial():
-    dados_carregados = carregar_professores()
-    lista_professores = [Professor.from_dict(d) for d in dados_carregados]
     while True:
         print("\n--MENU--\n")
         print("1: Criar nova conta")
         print("2: Fazer login")
         print("3: Sair")
 
-        opção=input("Escolha (1, 2 ou 3):").strip()
+        opção = input("Escolha (1, 2 ou 3): ").strip()
 
-        if opção=="1":
-            registrar_professor(lista_professores)
-        elif opção=="2":
-            login_professor(lista_professores)
-
-        elif opção=="3":
+        if opção == "1":
+            registrar_professor()
+        elif opção == "2":
+            login_professor()
+        elif opção == "3":
             print("Encerrando...")
             break
         else:

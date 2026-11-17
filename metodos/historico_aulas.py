@@ -12,10 +12,11 @@ def exibir_historico(lista_alunos, professor=None):
         return
 
     for i, aluno in enumerate(alunos_exibir, start=1):
+        tipo = getattr(aluno, "tipo_de_aula", getattr(aluno, "TipoDeAula", ""))
         print(
             f"{i}. Aluno: {aluno.nome} | "
             f"Data: {aluno.data_aula} | "
-            f"Tipo: {aluno.TipoDeAula} | "
+            f"Tipo: {tipo} | "
             f"Valor: R$ {aluno.valor:.2f}"
         )
 
