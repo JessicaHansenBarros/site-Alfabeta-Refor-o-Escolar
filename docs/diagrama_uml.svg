@@ -1,0 +1,329 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 1120" width="1560" height="1120">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 24px 'Segoe UI', Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+      .box { fill: #ffffff; stroke: #334155; stroke-width: 1.6; rx: 6; }
+      .box-abs { fill: #eef2ff; stroke: #4338ca; stroke-width: 1.8; rx: 6; }
+      .header-abs { fill: #e0e7ff; }
+      .header-cls { fill: #f1f5f9; }
+      .sep { stroke: #94a3b8; stroke-width: 1.1; }
+      .cls-name { font: 700 13.5px 'Segoe UI', Arial, sans-serif; fill: #0f172a; text-anchor: middle; }
+      .cls-abs { font: italic 700 13.5px 'Segoe UI', Arial, sans-serif; fill: #312e81; text-anchor: middle; }
+      .stereo { font: 600 10.5px 'Segoe UI', Arial, sans-serif; fill: #4338ca; text-anchor: middle; }
+      .member { font: 400 11.5px 'Consolas', 'Courier New', monospace; fill: #1e293b; }
+      .member-abs { font: italic 400 11.5px 'Consolas', 'Courier New', monospace; fill: #312e81; }
+      .rel-inherit { stroke: #1d4ed8; stroke-width: 1.8; fill: none; }
+      .rel-comp { stroke: #0f766e; stroke-width: 1.9; fill: none; }
+      .rel-assoc { stroke: #334155; stroke-width: 1.6; fill: none; }
+      .rel-dep { stroke: #b45309; stroke-width: 1.6; stroke-dasharray: 6,4; fill: none; }
+      .lbl { font: 600 11px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .lbl-inherit { font: 600 11px 'Segoe UI', Arial, sans-serif; fill: #1d4ed8; }
+      .lbl-comp { font: 600 11px 'Segoe UI', Arial, sans-serif; fill: #0f766e; }
+      .lbl-dep { font: 600 11px 'Segoe UI', Arial, sans-serif; fill: #b45309; }
+      .legend-box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.4; rx: 8; }
+    </style>
+
+    <!-- Herança: triângulo vazado -->
+    <marker id="inherit-arrow" viewBox="0 0 14 14" refX="13" refY="7" markerWidth="12" markerHeight="12" orient="auto">
+      <path d="M 1 1 L 13 7 L 1 13 z" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6"/>
+    </marker>
+
+    <!-- Associação: seta aberta -->
+    <marker id="assoc-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="#334155" stroke-width="1.6"/>
+    </marker>
+
+    <!-- Composição: losango preenchido na origem -->
+    <marker id="comp-diamond" viewBox="0 0 16 12" refX="1" refY="6" markerWidth="14" markerHeight="10" orient="auto">
+      <path d="M 1 6 L 8 1 L 15 6 L 8 11 z" fill="#0f766e" stroke="#0f766e" stroke-width="1.2"/>
+    </marker>
+
+    <!-- Dependência: seta aberta tracejada -->
+    <marker id="dep-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 1 1 L 11 6 L 1 11" fill="none" stroke="#b45309" stroke-width="1.6"/>
+    </marker>
+  </defs>
+
+  <rect width="1560" height="1120" class="bg"/>
+
+  <!-- Cabeçalho -->
+  <text x="40" y="42" class="title">Diagrama de Classes UML — Sistema Alfabeta Reforço Escolar</text>
+  <text x="40" y="66" class="subtitle">Modelagem Orientada a Objetos: Herança, Polimorfismo, Composição, Associação e Dependência</text>
+
+  <!-- ==================== LINHA 1: Pessoa, PortalAlfabeta, Aula ==================== -->
+
+  <!-- Pessoa (abstract) -->
+  <g transform="translate(150, 100)">
+    <rect width="260" height="106" class="box-abs"/>
+    <text x="130" y="20" class="stereo">&lt;&lt;abstract&gt;&gt;</text>
+    <text x="130" y="38" class="cls-abs">Pessoa</text>
+    <line x1="0" y1="48" x2="260" y2="48" class="sep"/>
+    <text x="12" y="66" class="member">+ nome: str</text>
+    <line x1="0" y1="76" x2="260" y2="76" class="sep"/>
+    <text x="12" y="95" class="member-abs">+ exibir_identificacao()* : str</text>
+  </g>
+
+  <!-- PortalAlfabeta -->
+  <g transform="translate(560, 95)">
+    <rect width="380" height="205" class="box"/>
+    <text x="190" y="25" class="cls-name">PortalAlfabeta</text>
+    <line x1="0" y1="36" x2="380" y2="36" class="sep"/>
+    <text x="12" y="54" class="member">+ banco_professores: BancoProfessores</text>
+    <text x="12" y="70" class="member">+ banco_aulas: BancoAulas</text>
+    <text x="12" y="86" class="member">+ professores: list[Professor]</text>
+    <text x="12" y="102" class="member">+ aulas: list[Aula]</text>
+    <line x1="0" y1="112" x2="380" y2="112" class="sep"/>
+    <text x="12" y="130" class="member">+ registrar_professor(...) : Professor</text>
+    <text x="12" y="146" class="member">+ autenticar(login, senha) : Professor?</text>
+    <text x="12" y="162" class="member">+ adicionar_aula(...) : Aula</text>
+    <text x="12" y="178" class="member">+ alterar_aula(...) : Aula</text>
+    <text x="12" y="194" class="member">+ calcular_salario(...) / finalizar_mes()</text>
+  </g>
+
+  <!-- Aula (abstract) -->
+  <g transform="translate(1070, 95)">
+    <rect width="340" height="168" class="box-abs"/>
+    <text x="170" y="20" class="stereo">&lt;&lt;abstract&gt;&gt;</text>
+    <text x="170" y="38" class="cls-abs">Aula</text>
+    <line x1="0" y1="48" x2="340" y2="48" class="sep"/>
+    <text x="12" y="66" class="member">+ aluno: Aluno</text>
+    <text x="12" y="82" class="member">+ data_aula: str</text>
+    <text x="12" y="98" class="member">+ professor: Professor?</text>
+    <line x1="0" y1="108" x2="340" y2="108" class="sep"/>
+    <text x="12" y="126" class="member-abs">+ tipo_aula()* : str</text>
+    <text x="12" y="142" class="member-abs">+ calcular_valor()* : float</text>
+    <text x="12" y="158" class="member">+ descrever() : str / to_dict() : dict</text>
+  </g>
+
+  <!-- ==================== LINHA 2: Professor, Aluno, Bancos, AgendaMensal ==================== -->
+
+  <!-- Professor -->
+  <g transform="translate(40, 290)">
+    <rect width="270" height="175" class="box"/>
+    <text x="135" y="24" class="cls-name">Professor</text>
+    <line x1="0" y1="34" x2="270" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">+ id: int?</text>
+    <text x="12" y="68" class="member">+ email: str</text>
+    <text x="12" y="84" class="member">+ login: str / senha: str</text>
+    <text x="12" y="100" class="member">+ agenda: AgendaMensal</text>
+    <line x1="0" y1="110" x2="270" y2="110" class="sep"/>
+    <text x="12" y="128" class="member">+ exibir_identificacao() : str</text>
+    <text x="12" y="144" class="member">+ adicionar_aula(aula: Aula)</text>
+    <text x="12" y="160" class="member">+ to_dict() / from_dict()</text>
+  </g>
+
+  <!-- Aluno -->
+  <g transform="translate(340, 290)">
+    <rect width="200" height="96" class="box"/>
+    <text x="100" y="24" class="cls-name">Aluno</text>
+    <line x1="0" y1="34" x2="200" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">(herda nome: str)</text>
+    <line x1="0" y1="62" x2="200" y2="62" class="sep"/>
+    <text x="12" y="81" class="member">+ exibir_identificacao() : str</text>
+  </g>
+
+  <!-- BancoProfessores -->
+  <g transform="translate(560, 360)">
+    <rect width="180" height="96" class="box"/>
+    <text x="90" y="24" class="cls-name">BancoProfessores</text>
+    <line x1="0" y1="34" x2="180" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">+ caminho: str</text>
+    <line x1="0" y1="62" x2="180" y2="62" class="sep"/>
+    <text x="12" y="79" class="member">+ carregar() / salvar()</text>
+  </g>
+
+  <!-- BancoAulas -->
+  <g transform="translate(765, 360)">
+    <rect width="180" height="96" class="box"/>
+    <text x="90" y="24" class="cls-name">BancoAulas</text>
+    <line x1="0" y1="34" x2="180" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">+ caminho: str</text>
+    <line x1="0" y1="62" x2="180" y2="62" class="sep"/>
+    <text x="12" y="79" class="member">+ carregar() / salvar()</text>
+  </g>
+
+  <!-- AgendaMensal -->
+  <g transform="translate(40, 540)">
+    <rect width="270" height="145" class="box"/>
+    <text x="135" y="24" class="cls-name">AgendaMensal</text>
+    <line x1="0" y1="34" x2="270" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">- _aulas: list[Aula]</text>
+    <line x1="0" y1="62" x2="270" y2="62" class="sep"/>
+    <text x="12" y="80" class="member">+ adicionar(aula) / substituir()</text>
+    <text x="12" y="96" class="member">+ obter(indice) / ordenar()</text>
+    <text x="12" y="112" class="member">+ limpar() / esta_vazia()</text>
+    <text x="12" y="128" class="member">+ dias_trabalhados() : set[str]</text>
+  </g>
+
+  <!-- ==================== LINHA 3: Subclasses de Aula (Polimorfismo) ==================== -->
+
+  <g transform="translate(1010, 355)">
+    <rect width="235" height="92" class="box"/>
+    <text x="117" y="24" class="cls-name">AulaFundamentalColetivo</text>
+    <line x1="0" y1="34" x2="235" y2="34" class="sep"/>
+    <text x="12" y="56" class="member">+ tipo_aula : "Fundamental Coletivo"</text>
+    <text x="12" y="74" class="member">+ calcular_valor() : 9.92</text>
+  </g>
+
+  <g transform="translate(1285, 355)">
+    <rect width="235" height="92" class="box"/>
+    <text x="117" y="24" class="cls-name">AulaFundamentalIndividual</text>
+    <line x1="0" y1="34" x2="235" y2="34" class="sep"/>
+    <text x="12" y="56" class="member">+ tipo_aula : "Fundamental Individual"</text>
+    <text x="12" y="74" class="member">+ calcular_valor() : 16.54</text>
+  </g>
+
+  <g transform="translate(1010, 475)">
+    <rect width="235" height="92" class="box"/>
+    <text x="117" y="24" class="cls-name">AulaMedioColetivo</text>
+    <line x1="0" y1="34" x2="235" y2="34" class="sep"/>
+    <text x="12" y="56" class="member">+ tipo_aula : "Médio Coletivo"</text>
+    <text x="12" y="74" class="member">+ calcular_valor() : 16.54</text>
+  </g>
+
+  <g transform="translate(1285, 475)">
+    <rect width="235" height="92" class="box"/>
+    <text x="117" y="24" class="cls-name">AulaMedioIndividual</text>
+    <line x1="0" y1="34" x2="235" y2="34" class="sep"/>
+    <text x="12" y="56" class="member">+ tipo_aula : "Médio Individual"</text>
+    <text x="12" y="74" class="member">+ calcular_valor() : 19.85</text>
+  </g>
+
+  <g transform="translate(1148, 595)">
+    <rect width="235" height="92" class="box"/>
+    <text x="117" y="24" class="cls-name">AulaFimDeSemana</text>
+    <line x1="0" y1="34" x2="235" y2="34" class="sep"/>
+    <text x="12" y="56" class="member">+ tipo_aula : "Fim de Semana"</text>
+    <text x="12" y="74" class="member">+ calcular_valor() : 37.50</text>
+  </g>
+
+  <!-- ==================== LINHA 4: Serviços / Dependências ==================== -->
+
+  <!-- CalculadoraSalario -->
+  <g transform="translate(360, 540)">
+    <rect width="280" height="95" class="box"/>
+    <text x="140" y="24" class="cls-name">CalculadoraSalario</text>
+    <line x1="0" y1="34" x2="280" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">(sem estado armazenado)</text>
+    <line x1="0" y1="62" x2="280" y2="62" class="sep"/>
+    <text x="12" y="81" class="member">+ calcular(prof, vt?) : ResumoSalario</text>
+  </g>
+
+  <!-- ValeTransporte -->
+  <g transform="translate(360, 700)">
+    <rect width="250" height="92" class="box"/>
+    <text x="125" y="24" class="cls-name">ValeTransporte</text>
+    <line x1="0" y1="34" x2="250" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">+ valor_diario: float</text>
+    <line x1="0" y1="62" x2="250" y2="62" class="sep"/>
+    <text x="12" y="80" class="member">+ calcular_total(dias) : float</text>
+  </g>
+
+  <!-- ResumoSalario -->
+  <g transform="translate(650, 700)">
+    <rect width="250" height="118" class="box"/>
+    <text x="125" y="24" class="cls-name">ResumoSalario</text>
+    <line x1="0" y1="34" x2="250" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">+ total_aulas: float</text>
+    <text x="12" y="68" class="member">+ dias_trabalhados: int</text>
+    <text x="12" y="84" class="member">+ total_vale_transporte: float</text>
+    <text x="12" y="100" class="member">+ total_geral: float</text>
+  </g>
+
+  <!-- FabricaAula -->
+  <g transform="translate(990, 735)">
+    <rect width="290" height="110" class="box"/>
+    <text x="145" y="24" class="cls-name">FabricaAula</text>
+    <line x1="0" y1="34" x2="290" y2="34" class="sep"/>
+    <text x="12" y="52" class="member">+ OPCOES / POR_TIPO : dict</text>
+    <line x1="0" y1="62" x2="290" y2="62" class="sep"/>
+    <text x="12" y="80" class="member">+ criar_por_opcao(...) : Aula</text>
+    <text x="12" y="96" class="member">+ criar_por_tipo(...) / from_dict()</text>
+  </g>
+
+  <!-- ==================== CONECTORES UML ==================== -->
+
+  <!-- Herança: Professor & Aluno -> Pessoa -->
+  <path d="M 175 290 L 175 245 L 280 245 L 280 208" class="rel-inherit" marker-end="url(#inherit-arrow)"/>
+  <path d="M 440 290 L 440 245 L 280 245" class="rel-inherit"/>
+  <text x="292" y="236" class="lbl-inherit">Herança + Polimorfismo</text>
+
+  <!-- Herança: Subclasses -> Aula -->
+  <path d="M 1127 355 L 1127 315 L 1265 315 L 1265 265" class="rel-inherit" marker-end="url(#inherit-arrow)"/>
+  <path d="M 1402 355 L 1402 315 L 1265 315" class="rel-inherit"/>
+  <path d="M 1010 521 L 985 521 L 985 315 L 1127 315" class="rel-inherit"/>
+  <path d="M 1520 521 L 1540 521 L 1540 315 L 1402 315" class="rel-inherit"/>
+  <path d="M 1265 595 L 1265 315" class="rel-inherit"/>
+  <text x="1276" y="294" class="lbl-inherit">Herança + Polimorfismo (calcular_valor)</text>
+
+  <!-- Composição: Professor *-- AgendaMensal -->
+  <path d="M 175 465 L 175 538" class="rel-comp" marker-start="url(#comp-diamond)"/>
+  <text x="184" y="505" class="lbl-comp">Composição (1..1)</text>
+
+  <!-- Composição: PortalAlfabeta *-- BancoProfessores & BancoAulas -->
+  <path d="M 650 300 L 650 358" class="rel-comp" marker-start="url(#comp-diamond)"/>
+  <path d="M 855 300 L 855 358" class="rel-comp" marker-start="url(#comp-diamond)"/>
+  <text x="660" y="334" class="lbl-comp">Composição</text>
+
+  <!-- Associação: PortalAlfabeta --> Professor / Aula -->
+  <path d="M 560 150 L 490 150 L 490 265 L 250 265 L 250 290" class="rel-assoc" marker-end="url(#assoc-arrow)"/>
+  <path d="M 940 165 L 1068 165" class="rel-assoc" marker-end="url(#assoc-arrow)"/>
+  <text x="955" y="155" class="lbl">Associação (0..*)</text>
+
+  <!-- Associação: Aula --> Aluno -->
+  <path d="M 1070 215 L 950 215 L 950 325 L 542 325" class="rel-assoc" marker-end="url(#assoc-arrow)"/>
+  <text x="615" y="320" class="lbl">Associação Aula -&gt; Aluno (1)</text>
+
+  <!-- Associação: AgendaMensal --> Aula -->
+  <path d="M 175 685 L 175 860 L 1545 860 L 1545 170 L 1412 170" class="rel-assoc" marker-end="url(#assoc-arrow)"/>
+  <text x="640" y="852" class="lbl">Associação: AgendaMensal 1 ---&gt; 0..* Aula</text>
+
+  <!-- Dependência: CalculadoraSalario ..> Professor, ValeTransporte, ResumoSalario -->
+  <path d="M 360 570 L 330 570 L 330 430 L 312 430" class="rel-dep" marker-end="url(#dep-arrow)"/>
+  <path d="M 485 635 L 485 698" class="rel-dep" marker-end="url(#dep-arrow)"/>
+  <path d="M 600 635 L 730 698" class="rel-dep" marker-end="url(#dep-arrow)"/>
+  <text x="495" y="670" class="lbl-dep">Dependência</text>
+
+  <!-- Dependência: PortalAlfabeta ..> CalculadoraSalario & FabricaAula -->
+  <path d="M 560 220 L 550 220 L 550 538" class="rel-dep" marker-end="url(#dep-arrow)"/>
+  <path d="M 940 240 L 965 240 L 965 790 L 988 790" class="rel-dep" marker-end="url(#dep-arrow)"/>
+
+  <!-- Dependência: FabricaAula ..> Aula -->
+  <path d="M 1280 790 L 1495 790 L 1495 230 L 1412 230" class="rel-dep" marker-end="url(#dep-arrow)"/>
+  <text x="1310" y="782" class="lbl-dep">Dependência (cria instâncias)</text>
+
+  <!-- ==================== LEGENDA ==================== -->
+  <g transform="translate(40, 910)">
+    <rect width="1480" height="170" class="legend-box"/>
+    <text x="24" y="34" class="cls-name" style="text-anchor: start;">Legenda das 5 Relações OO (Exigidas no Nível Desk App I)</text>
+    <line x1="24" y1="46" x2="1456" y2="46" class="sep"/>
+
+    <!-- 1. Herança -->
+    <line x1="30" y1="78" x2="105" y2="78" class="rel-inherit" marker-end="url(#inherit-arrow)"/>
+    <text x="120" y="82" class="lbl-inherit">1. Herança:</text>
+    <text x="200" y="82" class="lbl">Professor e Aluno herdam de Pessoa; as 5 modalidades de aula herdam da classe abstrata Aula.</text>
+
+    <!-- 2. Polimorfismo -->
+    <rect x="30" y="96" width="75" height="22" class="box-abs"/>
+    <text x="67" y="111" class="stereo">override</text>
+    <text x="120" y="111" class="lbl-inherit">2. Polimorfismo:</text>
+    <text x="230" y="111" class="lbl">exibir_identificacao() em Pessoa/Professor/Aluno e calcular_valor() / tipo_aula sobrescritos em cada subclasse de Aula.</text>
+
+    <!-- 3. Composição -->
+    <line x1="30" y1="142" x2="105" y2="142" class="rel-comp" marker-start="url(#comp-diamond)"/>
+    <text x="120" y="146" class="lbl-comp">3. Composição:</text>
+    <text x="225" y="146" class="lbl">Professor cria e controla AgendaMensal; PortalAlfabeta cria e controla BancoProfessores e BancoAulas.</text>
+
+    <!-- 4. Associação -->
+    <line x1="870" y1="80" x2="945" y2="80" class="rel-assoc" marker-end="url(#assoc-arrow)"/>
+    <text x="960" y="84" class="lbl">4. Associação:</text>
+    <text x="1055" y="84" class="lbl">Aula referencia Aluno e Professor; AgendaMensal guarda lista de Aulas.</text>
+
+    <!-- 5. Dependência -->
+    <line x1="870" y1="142" x2="945" y2="142" class="rel-dep" marker-end="url(#dep-arrow)"/>
+    <text x="960" y="146" class="lbl-dep">5. Dependência:</text>
+    <text x="1065" y="146" class="lbl">CalculadoraSalario usa Professor/ValeTransporte por parâmetro; FabricaAula instancia Aula.</text>
+  </g>
+</svg>

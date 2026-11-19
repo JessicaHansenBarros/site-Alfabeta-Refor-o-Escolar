@@ -1,15 +1,20 @@
-def limpar_historico(lista_alunos):
+from classes.portal import PortalAlfabeta
+from classes.professor import Professor
+
+
+def limpar_historico(portal: PortalAlfabeta, professor: Professor) -> None:
     while True:
-        print("\nDELETAR TODOS OS ALUNOS?\n")
+        print("\nDELETAR TODOS OS ALUNOS DO SEU HISTÓRICO?\n")
         print("1: Sim")
         print("2: Não")
 
-        opção = input("Escolha (1 ou 2): ").strip()
+        opcao = input("Escolha (1 ou 2): ").strip()
 
-        if opção =="1":
-            lista_alunos.clear()
-            print("\nHistórico de alunos deletado com sucesso!\n")
+        if opcao == "1":
+            removidos = portal.finalizar_mes(professor)
+            print(f"\nHistórico de alunos deletado e salvo com sucesso! ({removidos} registro(s) removido(s))\n")
             break
-        elif opção=="2":
+        elif opcao == "2":
             break
-            
+        else:
+            print("Opção inválida! Digite 1 ou 2.")

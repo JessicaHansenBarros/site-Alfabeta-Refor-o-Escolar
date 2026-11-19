@@ -1,49 +1,38 @@
-from db.banco_alunos import salvar_alunos
-
-from classes.Valores import AlunoMedioIndividual
-from classes.Valores import AlunoFimDeSemana
-from classes.Valores import AlunoFundamentalColetivo
-from classes.Valores import AlunoFundamentalIndividual
-from classes.Valores import AlunoMedioColetivo
-
-def adicionar_aluno(lista_alunos, professor = None):
-    nome=input("Nome do aluno: ")
-    #no proximo projeto adicionar a função do calendário
-    data_aula = input("Data da aula: ")
+from classes.aula import FabricaAula
+from classes.portal import PortalAlfabeta
+from classes.professor import Professor
 
 
+def _solicitar_tipo_aula(permitir_vazio: bool = False) -> str | None:
+    opcoes = FabricaAula.listar_opcoes()
+    codigos_validos = {codigo for codigo, _ in opcoes}
     while True:
         print("\n--SELECIONE O TIPO DE AULA--\n")
-        print("1: Fundamental Coletivo")
-        print("2: Fundamental Individual")
-        print("3: Médio Coletivo")
-        print("4: Médio Individual")
-        print("5: Fim de Semana")
+        for codigo, descricao in opcoes:
+            print(f"{codigo}: {descricao}")
+        if permitir_vazio:
+            print("Enter: Manter tipo atual")
 
-        opção=input("Escolha (1, 2, 3, 4 ou 5): ").strip()
-        if opção=="1":
-            novo_aluno = AlunoFundamentalColetivo(nome,data_aula)
-            break
-        elif opção=="2":
-            novo_aluno =AlunoFundamentalIndividual(nome,data_aula)  
-            break           
-        elif opção=="3":
-            novo_aluno =AlunoMedioColetivo(nome,data_aula)
-            break
-        elif opção=="4":
-            novo_aluno =AlunoMedioIndividual(nome,data_aula) 
-            break             
-        elif opção=="5":
-            novo_aluno =AlunoFimDeSemana(nome,data_aula)  
-            break
-
-    if professor:
-        novo_aluno.id_professor = professor.id
-    
-    lista_alunos.append(novo_aluno)
-    lista_alunos.sort(key=lambda x:x.data_aula)
-
-    salvar_alunos(lista_alunos)
+        opcao = input("Escolha (1, 2, 3, 4 ou 5): ").strip()
+        if permitir_vazio and opcao == "":
+            return None
+        if opcao in codigos_validos:
+            return opcao
+        print("Opção inválida! Escolha entre 1 e 5.")
 
 
-    print("--ALUNO ADICIONADO E SALVO COM SUCESSO, RETORNANDO AO MENU--\n")
+def adicionar_aluno(portal: PortalAlfabeta, professor: Professor) -> None:
+    nome = input("Nome do aluno: ").strip()
+    data_aula = input("Data da aula: ").strip()
+    opcao_tipo = _solicitar_tipo_aula()
+
+    try:
+        portal.adicionar_aula(
+            professor=professor,
+            nome_aluno=nome,
+            data_aula=data_aula,
+            opcao_tipo=opcao_tipo or "1",
+        )
+        print("--ALUNO ADICIONADO E SALVO COM SUCESSO, RETORNANDO AO MENU--\n")
+    except ValueError as erro:
+        print(f"Erro ao adicionar aula: {erro}\n")
