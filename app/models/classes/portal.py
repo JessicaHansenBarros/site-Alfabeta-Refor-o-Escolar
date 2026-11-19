@@ -1,10 +1,10 @@
-from classes.agenda import chave_ordenacao_data
-from classes.aluno import Aluno
-from classes.aula import Aula, FabricaAula
-from classes.calculadora_salario import CalculadoraSalario, ResumoSalario, ValeTransporte
-from classes.professor import Professor
-from db.banco_alunos import BancoAulas, CAMINHO_DB_ALUNOS
-from db.banco_professores import BancoProfessores, CAMINHO_DB
+from app.models.classes.agenda import chave_ordenacao_data
+from app.models.classes.aluno import Aluno
+from app.models.classes.aula import Aula, FabricaAula
+from app.models.classes.calculadora_salario import CalculadoraSalario, ResumoSalario, ValeTransporte
+from app.models.classes.professor import Professor
+from app.controllers.db.banco_alunos import BancoAulas, CAMINHO_DB_ALUNOS
+from app.controllers.db.banco_professores import BancoProfessores, CAMINHO_DB
 
 
 class PortalAlfabeta:

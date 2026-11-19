@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from classes.aula import Aula
+from app.models.classes.aula import Aula
 
 
 def chave_ordenacao_data(data_str: str) -> tuple[int, str]:

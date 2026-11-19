@@ -1,4 +1,4 @@
-from classes.portal import PortalAlfabeta
+from app.models.classes.portal import PortalAlfabeta
 from metodos.login_professor import login_professor
 from metodos.registrar_professor import registrar_professor
 

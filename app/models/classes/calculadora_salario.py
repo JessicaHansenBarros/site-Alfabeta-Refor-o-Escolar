@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from classes.professor import Professor
+from app.models.classes.professor import Professor
 
 
 class ValeTransporte:

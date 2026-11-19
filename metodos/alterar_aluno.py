@@ -1,5 +1,5 @@
-from classes.portal import PortalAlfabeta
-from classes.professor import Professor
+from app.models.classes.portal import PortalAlfabeta
+from app.models.classes.professor import Professor
 from metodos.adicionar_aluno import _solicitar_tipo_aula
 
 

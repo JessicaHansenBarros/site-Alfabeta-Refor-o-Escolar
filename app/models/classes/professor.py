@@ -1,6 +1,6 @@
-from classes.agenda import AgendaMensal
-from classes.aula import Aula
-from classes.pessoa import Pessoa
+from app.models.classes.agenda import AgendaMensal
+from app.models.classes.aula import Aula
+from app.models.classes.pessoa import Pessoa
 
 
 class Professor(Pessoa):

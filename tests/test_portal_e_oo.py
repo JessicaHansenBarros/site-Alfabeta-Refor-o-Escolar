@@ -2,9 +2,9 @@ import json
 
 import pytest
 
-from classes.agenda import AgendaMensal
-from classes.aluno import Aluno
-from classes.aula import (
+from app.models.classes.agenda import AgendaMensal
+from app.models.classes.aluno import Aluno
+from app.models.classes.aula import (
     Aula,
     AulaFimDeSemana,
     AulaFundamentalColetivo,
@@ -13,10 +13,10 @@ from classes.aula import (
     AulaMedioIndividual,
     FabricaAula,
 )
-from classes.calculadora_salario import CalculadoraSalario, ValeTransporte
-from classes.pessoa import Pessoa
-from classes.portal import PortalAlfabeta
-from classes.professor import Professor
+from app.models.classes.calculadora_salario import CalculadoraSalario, ValeTransporte
+from app.models.classes.pessoa import Pessoa
+from app.models.classes.portal import PortalAlfabeta
+from app.models.classes.professor import Professor
 
 
 def criar_portal_isolado(tmp_path):

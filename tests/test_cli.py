@@ -1,4 +1,4 @@
-from classes.portal import PortalAlfabeta
+from app.models.classes.portal import PortalAlfabeta
 from metodos.menu_inicial import menu_inicial
 
 
@@ -21,7 +21,7 @@ def test_fluxo_completo_cli(tmp_path, monkeypatch, capsys):
         "1", "Pedro", "15/11/26", "2",          # Fundamental Individual: 16.54
         "3", "1", "Pedro Henrique", "", "4",    # Altera para Médio Individual: 19.85
         "4",                                    # Histórico
-        "2", "1", "10,00",                      # Salário com VT 10.00 (1 dia -> 29.85)
+        "2", "1",                               # Salário com VT fixo 11.00 (1 dia -> 30.85)
         "5", "1",                               # Fim do mês -> Sim
         "6",                                    # Deslogar
         "3",                                    # Sair
@@ -35,7 +35,7 @@ def test_fluxo_completo_cli(tmp_path, monkeypatch, capsys):
     assert "Bem-vindo(a), Victor Silva!" in saida
     assert "Pedro Henrique" in saida
     assert "Médio Individual" in saida
-    assert "R$ 29.85" in saida
+    assert "R$ 30.85" in saida
     assert "Histórico de alunos deletado e salvo com sucesso! (1 registro(s) removido(s))" in saida
     assert "Encerrando..." in saida
 

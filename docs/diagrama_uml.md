@@ -128,6 +128,22 @@ classDiagram
         +finalizar_mes(professor) int
     }
 
+    class Application {
+        +portal_model: PortalAlfabeta
+        +current_user: Professor | None
+        +pages: dict
+        +render(page, parameter) str
+        +cadastro(erro, mensagem) str
+        +registrar_professor(nome, email, login, senha) str
+        +portal(aba, mensagem, erro, tem_vt, resumo) str
+        +autenticar(login, senha) str
+        +adicionar_aluno(nome_aluno, opcao_tipo, data_aula) str
+        +calcular_salario(tem_vt_str) str
+        +alterar_aluno(indice_str, novo_nome, nova_data, nova_opcao) str
+        +finalizar_mes() str
+        +sair() void
+    }
+
     %% Herança (e Polimorfismo via métodos sobrescritos)
     Pessoa <|-- Aluno : Herança
     Pessoa <|-- Professor : Herança
@@ -148,6 +164,8 @@ classDiagram
     Aula "0..*" --> "0..1" Professor : Associação
     PortalAlfabeta "1" --> "0..*" Professor : Associação
     PortalAlfabeta "1" --> "0..*" Aula : Associação
+    Application "1" --> "1" PortalAlfabeta : Associação
+    Application "0..*" --> "0..1" Professor : Associação (current_user)
 
     %% Dependência
     CalculadoraSalario ..> Professor : Dependência
@@ -157,6 +175,7 @@ classDiagram
     PortalAlfabeta ..> FabricaAula : Dependência
     FabricaAula ..> Aula : Dependência
     FabricaAula ..> Aluno : Dependência
+    Application ..> ResumoSalario : Dependência
 ```
 
 Visualização vetorial disponível também em [diagrama_uml.svg](./diagrama_uml.svg).

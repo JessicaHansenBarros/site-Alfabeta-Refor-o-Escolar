@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from classes.aluno import Aluno
+from app.models.classes.aluno import Aluno
 
 if TYPE_CHECKING:
-    from classes.professor import Professor
+    from app.models.classes.professor import Professor
 
 
 class Aula(ABC):

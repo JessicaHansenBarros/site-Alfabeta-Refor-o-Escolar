@@ -1,5 +1,5 @@
-from classes.portal import PortalAlfabeta
-from classes.professor import Professor
+from app.models.classes.portal import PortalAlfabeta
+from app.models.classes.professor import Professor
 from metodos.menu_principal import menu_principal
 
 

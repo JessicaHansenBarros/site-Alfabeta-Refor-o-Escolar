@@ -1,7 +1,7 @@
 import json
 import os
 
-from classes.professor import Professor
+from app.models.classes.professor import Professor
 
 CAMINHO_DB = os.path.join(os.path.dirname(__file__), "dataBase_professor.json")
 

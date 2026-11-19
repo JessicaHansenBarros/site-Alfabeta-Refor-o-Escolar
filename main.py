@@ -1,4 +1,4 @@
-from classes.portal import PortalAlfabeta
+from app.models.classes.portal import PortalAlfabeta
 from metodos.menu_inicial import menu_inicial
 
 

@@ -19,5 +19,12 @@
         "id_professor": 1,
         "tipo_de_aula": "Fundamental Individual",
         "valor": 16.54
+    },
+    {
+        "nome": "neto",
+        "data_aula": "20/11/26",
+        "id_professor": 2,
+        "tipo_de_aula": "Fundamental Coletivo",
+        "valor": 9.92
     }
 ]

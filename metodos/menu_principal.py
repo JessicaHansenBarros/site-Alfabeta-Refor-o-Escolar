@@ -1,5 +1,5 @@
-from classes.portal import PortalAlfabeta
-from classes.professor import Professor
+from app.models.classes.portal import PortalAlfabeta
+from app.models.classes.professor import Professor
 from metodos.adicionar_aluno import adicionar_aluno
 from metodos.alterar_aluno import alterar_aluno
 from metodos.fim_do_mes import limpar_historico

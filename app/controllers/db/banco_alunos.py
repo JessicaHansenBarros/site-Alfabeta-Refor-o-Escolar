@@ -1,8 +1,8 @@
 import json
 import os
 
-from classes.aula import Aula, FabricaAula
-from classes.professor import Professor
+from app.models.classes.aula import Aula, FabricaAula
+from app.models.classes.professor import Professor
 
 CAMINHO_DB_ALUNOS = os.path.join(os.path.dirname(__file__), "dataBase_alunos.json")
 

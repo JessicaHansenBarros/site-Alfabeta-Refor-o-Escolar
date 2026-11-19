@@ -1,4 +1,4 @@
-from classes.pessoa import Pessoa
+from app.models.classes.pessoa import Pessoa
 
 
 class Aluno(Pessoa):

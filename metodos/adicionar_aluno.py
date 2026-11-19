@@ -1,6 +1,6 @@
-from classes.aula import FabricaAula
-from classes.portal import PortalAlfabeta
-from classes.professor import Professor
+from app.models.classes.aula import FabricaAula
+from app.models.classes.portal import PortalAlfabeta
+from app.models.classes.professor import Professor
 
 
 def _solicitar_tipo_aula(permitir_vazio: bool = False) -> str | None:
