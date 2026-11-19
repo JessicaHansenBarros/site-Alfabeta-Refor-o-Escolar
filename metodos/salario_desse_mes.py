@@ -18,7 +18,7 @@ def calcular_salario(lista_alunos, professor=None):
     opção = input("Escolha (1 ou 2): ").strip()
 
     if opção == "1":
-        valor_dia = float(input("Valor diário do vale-transporte (ida + volta): R$ ").replace(",", "."))
+        valor_dia = 11
         dias_trabalhados = {aluno.data_aula for aluno in alunos_prof}  # set evita contar dias repetidos
         total_passe = len(dias_trabalhados) * valor_dia
         total_final = total_aulas + total_passe
