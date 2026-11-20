@@ -1,16 +1,23 @@
-from classes.professor import Professor
-from db.banco_professores import salvar_professores
+from app.models.classes.portal import PortalAlfabeta
+from app.models.classes.professor import Professor
 
-def registrar_professor(lista_professores):
-    print("--REGISTRO DE NOVO PROFESSOR--\n")    
-    
-    professor_novo = Professor.criar_conta()
-    professor_novo.id = len(lista_professores) + 1
-    
-    lista_professores.append(professor_novo)
-    
-    lista_professores.sort(key=lambda x:x.nome)
 
-    salvar_professores(lista_professores)
-    
-    print("Conta criada e salva com sucesso!\n")
+def registrar_professor(portal: PortalAlfabeta) -> Professor | None:
+    print("\n--- CADASTRO DE NOVO PROFESSOR ---")
+    nome = input("Nome completo: ")
+    email = input("Email: ")
+    login = input("Login: ")
+    senha = input("Senha: ")
+
+    try:
+        professor = portal.registrar_professor(
+            nome=nome,
+            email=email,
+            login=login,
+            senha=senha,
+        )
+        print("Conta criada e salva com sucesso! Retornando ao menu de login.\n")
+        return professor
+    except ValueError as erro:
+        print(f"Erro ao cadastrar professor: {erro}\n")
+        return None

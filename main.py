@@ -1,12 +1,7 @@
-from classes.professor import Professor
-from metodos.registrar_professor import registrar_professor
+from app.models.classes.portal import PortalAlfabeta
 from metodos.menu_inicial import menu_inicial
-from metodos.menu_principal import menu_principal
+
 
 if __name__ == "__main__":
-    menu_inicial()
-
-
-
-
-
+    portal = PortalAlfabeta()
+    menu_inicial(portal)
