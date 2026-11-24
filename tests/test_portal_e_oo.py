@@ -156,3 +156,64 @@ def test_fabrica_aula_invalida():
         FabricaAula.criar_por_opcao("99", aluno, "10/11/26")
     with pytest.raises(ValueError):
         FabricaAula.criar_por_tipo("Inexistente", aluno, "10/11/26")
+
+
+def test_remover_aula_individual_e_persistencia(tmp_path):
+    portal, caminho_prof, caminho_aulas = criar_portal_isolado(tmp_path)
+    prof = portal.registrar_professor("Victor", "v@email.com", "victor", "123")
+
+    portal.adicionar_aula(prof, "Aluno 1", "05/11/26", "1")
+    portal.adicionar_aula(prof, "Aluno 2", "10/11/26", "2")
+
+    removida = portal.remover_aula(prof, 0)
+    assert removida.aluno.nome == "Aluno 1"
+    assert [a.aluno.nome for a in portal.listar_aulas(prof)] == ["Aluno 2"]
+
+    with pytest.raises(IndexError):
+        portal.remover_aula(prof, 5)
+
+    portal_rec = PortalAlfabeta(str(caminho_prof), str(caminho_aulas))
+    prof_rec = portal_rec.autenticar("victor", "123")
+    assert [a.aluno.nome for a in portal_rec.listar_aulas(prof_rec)] == ["Aluno 2"]
+
+
+def test_crud_professor_atualizar_e_remover_em_cascata(tmp_path):
+    portal, caminho_prof, caminho_aulas = criar_portal_isolado(tmp_path)
+    prof1 = portal.registrar_professor("Ana", "ana@email.com", "ana", "111")
+    prof2 = portal.registrar_professor("Bruno", "bruno@email.com", "bruno", "222")
+
+    assert len(portal.listar_professores()) == 2
+    assert portal.obter_professor(prof1.id) is prof1
+    assert portal.obter_professor(999) is None
+
+    # Falha por login duplicado ou campo vazio não deve deixar estado parcial
+    with pytest.raises(ValueError):
+        portal.atualizar_professor(prof1, novo_nome="Ana Alterada", novo_login="bruno")
+    assert prof1.nome == "Ana"
+
+    with pytest.raises(ValueError):
+        portal.atualizar_professor(prof1, novo_nome="Ana Alterada", novo_email="  ")
+    assert prof1.nome == "Ana"
+
+    # Atualização válida
+    portal.atualizar_professor(
+        prof1,
+        novo_nome="Ana Paula",
+        novo_email="anapaula@email.com",
+        novo_login="anapaula",
+        nova_senha="999",
+    )
+    assert portal.autenticar("anapaula", "999") is prof1
+
+    portal.adicionar_aula(prof1, "Aluno Ana", "10/11/26", "1")
+    portal.adicionar_aula(prof2, "Aluno Bruno", "11/11/26", "2")
+
+    # Remoção em cascata de prof1 mantém prof2 e suas aulas
+    portal.remover_professor(prof1)
+    assert portal.obter_professor(prof1.id) is None
+
+    portal_rec = PortalAlfabeta(str(caminho_prof), str(caminho_aulas))
+    assert portal_rec.autenticar("anapaula", "999") is None
+    prof2_rec = portal_rec.autenticar("bruno", "222")
+    assert prof2_rec is not None
+    assert [a.aluno.nome for a in portal_rec.listar_aulas(prof2_rec)] == ["Aluno Bruno"]

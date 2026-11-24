@@ -1,6 +1,27 @@
 [
     {
         "nome": "Arthur Santana",
+        "data_aula": "20/03/26",
+        "id_professor": 1,
+        "tipo_de_aula": "Fundamental Individual",
+        "valor": 16.54
+    },
+    {
+        "nome": "Izabela Rosa",
+        "data_aula": "20/07/26",
+        "id_professor": 1,
+        "tipo_de_aula": "Médio Individual",
+        "valor": 19.85
+    },
+    {
+        "nome": "Julia Soares",
+        "data_aula": "20/07/26",
+        "id_professor": 1,
+        "tipo_de_aula": "Fundamental Individual",
+        "valor": 16.54
+    },
+    {
+        "nome": "Arthur Santana",
         "data_aula": "14/10/26",
         "id_professor": 2,
         "tipo_de_aula": "Fundamental Individual",

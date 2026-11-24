@@ -46,6 +46,11 @@ class AgendaMensal:
             raise IndexError("Índice de aula inválido.")
         return self._aulas[indice]
 
+    def remover(self, indice: int) -> Aula:
+        if indice < 0 or indice >= len(self._aulas):
+            raise IndexError("Índice de aula inválido.")
+        return self._aulas.pop(indice)
+
     def limpar(self) -> None:
         self._aulas.clear()
 

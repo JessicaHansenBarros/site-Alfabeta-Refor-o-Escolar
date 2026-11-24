@@ -69,6 +69,62 @@ class PortalAlfabeta:
                 return professor
         return None
 
+    def listar_professores(self) -> list[Professor]:
+        return list(self.professores)
+
+    def obter_professor(self, professor_id: int) -> Professor | None:
+        for professor in self.professores:
+            if professor.id == professor_id:
+                return professor
+        return None
+
+    def atualizar_professor(
+        self,
+        professor: Professor,
+        novo_nome: str | None = None,
+        novo_email: str | None = None,
+        novo_login: str | None = None,
+        nova_senha: str | None = None,
+    ) -> Professor:
+        if professor not in self.professores:
+            raise ValueError("Professor não encontrado no cadastro.")
+
+        login_candidato = (
+            novo_login.strip() if novo_login is not None else professor.login
+        )
+        if not login_candidato:
+            raise ValueError("O login não pode ficar vazio.")
+        if any(
+            p is not professor and p.login == login_candidato
+            for p in self.professores
+        ):
+            raise ValueError(f"O login '{login_candidato}' já está em uso.")
+
+        professor.atualizar_dados(
+            nome=novo_nome,
+            email=novo_email,
+            login=novo_login,
+            senha=nova_senha,
+        )
+        self.professores.sort(key=lambda p: p.nome.lower())
+        self.banco_professores.salvar(self.professores)
+        return professor
+
+    def remover_professor(self, professor: Professor) -> None:
+        if professor not in self.professores:
+            raise ValueError("Professor não encontrado no cadastro.")
+
+        aulas_do_professor = set(professor.agenda.aulas)
+        professor.agenda.limpar()
+        self.aulas = [
+            a
+            for a in self.aulas
+            if a not in aulas_do_professor and a.id_professor != professor.id
+        ]
+        self.professores.remove(professor)
+        self.banco_professores.salvar(self.professores)
+        self.banco_aulas.salvar(self.aulas)
+
     def adicionar_aula(
         self,
         professor: Professor,
@@ -133,6 +189,13 @@ class PortalAlfabeta:
         self._ordenar_aulas()
         self.banco_aulas.salvar(self.aulas)
         return aula_atualizada
+
+    def remover_aula(self, professor: Professor, indice: int) -> Aula:
+        aula_removida = professor.agenda.remover(indice)
+        if aula_removida in self.aulas:
+            self.aulas.remove(aula_removida)
+        self.banco_aulas.salvar(self.aulas)
+        return aula_removida
 
     def listar_aulas(self, professor: Professor) -> list[Aula]:
         return professor.agenda.aulas

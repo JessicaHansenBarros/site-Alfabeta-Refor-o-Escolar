@@ -325,3 +325,88 @@ td {
     color: #00B359;
     font-size: 2rem;
 }
+
+.btn-perigo {
+    background-color: #C53030;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    height: 48px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.btn-perigo:hover {
+    background-color: #9B2C2C;
+}
+
+.acoes-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-acao {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-acao-editar {
+    background-color: #E6F7EF;
+    color: #1C3D2B;
+    border: 1px solid #B7E4CC;
+}
+
+.btn-acao-editar:hover {
+    background-color: #D1EFE0;
+}
+
+.btn-acao-excluir {
+    background-color: #FED7D7;
+    color: #9B2C2C;
+    border: 1px solid #FEB2B2;
+}
+
+.btn-acao-excluir:hover {
+    background-color: #FEB2B2;
+}
+
+.perfil-resumo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.perfil-item {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.perfil-item span {
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.perfil-item strong {
+    font-size: 1rem;
+    color: #1A202C;
+    word-break: break-word;
+}

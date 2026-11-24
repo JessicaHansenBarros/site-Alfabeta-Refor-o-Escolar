@@ -23,7 +23,7 @@ def test_fluxo_completo_cli(tmp_path, monkeypatch, capsys):
         "4",                                    # Histórico
         "2", "1",                               # Salário com VT fixo 11.00 (1 dia -> 30.85)
         "5", "1",                               # Fim do mês -> Sim
-        "6",                                    # Deslogar
+        "8",                                    # Deslogar
         "3",                                    # Sair
     ]
     executar_com_entradas(monkeypatch, entradas)
@@ -44,3 +44,35 @@ def test_fluxo_completo_cli(tmp_path, monkeypatch, capsys):
     prof = portal_novo.autenticar("victor", "1234")
     assert prof is not None
     assert prof.agenda.esta_vazia()
+
+
+def test_crud_completo_cli(tmp_path, monkeypatch, capsys):
+    caminho_prof = tmp_path / "professores.json"
+    caminho_aulas = tmp_path / "aulas.json"
+    portal = PortalAlfabeta(str(caminho_prof), str(caminho_aulas))
+
+    # Cadastra -> login -> adiciona 2 aulas -> exclui aula 1 ->
+    # minha conta (atualiza nome e exclui conta) -> sair
+    entradas = [
+        "1", "Ana Lima", "ana@email.com", "ana", "123",
+        "2", "ana", "123",
+        "1", "Aluno 1", "10/11/26", "1",
+        "1", "Aluno 2", "12/11/26", "2",
+        "6", "1", "1",                          # Excluir aluno índice 1 -> confirma
+        "7",                                    # Minha conta
+        "1", "Ana Paula", "", "", "",           # Atualiza apenas nome
+        "2", "1",                               # Exclui conta -> confirma (sai da sessão)
+        "3",                                    # Sair
+    ]
+    executar_com_entradas(monkeypatch, entradas)
+
+    menu_inicial(portal)
+    saida = capsys.readouterr().out
+
+    assert "Registro excluído e salvo com sucesso" in saida
+    assert "Dados da conta atualizados com sucesso!" in saida
+    assert "Conta excluída com sucesso!" in saida
+
+    portal_final = PortalAlfabeta(str(caminho_prof), str(caminho_aulas))
+    assert portal_final.listar_professores() == []
+    assert portal_final.aulas == []

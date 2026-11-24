@@ -50,6 +50,10 @@
                 <span>✏️</span>
                 <span>Alterar aluno</span>
             </a>
+            <a href="/portal?aba=excluir" class="sidebar-btn {{ 'active' if aba == 'excluir' else '' }}">
+                <span>🗑️</span>
+                <span>Excluir aluno</span>
+            </a>
             <a href="/portal?aba=historico" class="sidebar-btn {{ 'active' if aba == 'historico' else '' }}">
                 <span>🕒</span>
                 <span>Histórico de aulas</span>
@@ -57,6 +61,10 @@
             <a href="/portal?aba=fim_do_mes" class="sidebar-btn {{ 'active' if aba == 'fim_do_mes' else '' }}">
                 <span>⏱️</span>
                 <span>Fim do mês</span>
+            </a>
+            <a href="/portal?aba=perfil" class="sidebar-btn {{ 'active' if aba == 'perfil' else '' }}">
+                <span>👨‍🏫</span>
+                <span>Minha conta</span>
             </a>
         </aside>
 
@@ -179,7 +187,7 @@
                                 <label for="indice">Selecione a aula para alterar:</label>
                                 <select id="indice" name="indice" required>
                                     % for idx, aula in enumerate(aulas):
-                                        <option value="{{ idx }}">{{ idx + 1 }} - {{ aula.aluno.nome }} ({{ aula.data_aula }} - {{ aula.tipo_aula }})</option>
+                                        <option value="{{ idx }}" {{ 'selected' if (defined('indice_selecionado') and indice_selecionado == idx) else '' }}>{{ idx + 1 }} - {{ aula.aluno.nome }} ({{ aula.data_aula }} - {{ aula.tipo_aula }})</option>
                                     % end
                                 </select>
                             </div>
@@ -213,14 +221,37 @@
                     % end
                 </div>
 
-            <!-- 4. ABA HISTÓRICO DE AULAS -->
+            <!-- 4. ABA EXCLUIR ALUNO -->
+            % elif aba == 'excluir':
+                <h2 class="content-title">Excluir Aula de Aluno</h2>
+                <div class="form-card">
+                    % if aulas:
+                        <form action="/portal/excluir" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta aula?');">
+                            <input type="hidden" name="aba_retorno" value="excluir">
+                            <div class="form-group">
+                                <label for="indice_excluir">Selecione a aula para excluir:</label>
+                                <select id="indice_excluir" name="indice" required>
+                                    % for idx, aula in enumerate(aulas):
+                                        <option value="{{ idx }}">{{ idx + 1 }} - {{ aula.aluno.nome }} ({{ aula.data_aula }} - {{ aula.tipo_aula }} - R$ {{ f"{aula.calcular_valor():.2f}".replace('.', ',') }})</option>
+                                    % end
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn-perigo">Excluir Aula Selecionada</button>
+                        </form>
+                    % else:
+                        <p style="color: #718096; text-align: center;">Nenhuma aula registrada para excluir.</p>
+                    % end
+                </div>
+
+            <!-- 5. ABA HISTÓRICO DE AULAS -->
             % elif aba == 'historico':
                 <h2 class="content-title">Histórico de Aulas</h2>
                 <div class="form-card">
                     <p style="color: #4A5568; margin-bottom: 15px;">Abaixo estão todas as aulas registradas no seu histórico cronológico.</p>
                 </div>
 
-            <!-- 5. ABA FIM DO MÊS -->
+            <!-- 6. ABA FIM DO MÊS -->
             % elif aba == 'fim_do_mes':
                 <h2 class="content-title">Fim do Mês</h2>
                 <div class="form-card" style="text-align: center;">
@@ -231,6 +262,73 @@
                         <button type="submit" class="btn-salvar" style="background-color: #C53030; max-width: 300px; margin: 0 auto;">
                             Confirmar e Fechar Mês
                         </button>
+                    </form>
+                </div>
+
+            <!-- 7. ABA MINHA CONTA (READ / UPDATE / DELETE PROFESSOR) -->
+            % elif aba == 'perfil':
+                <h2 class="content-title">Minha Conta</h2>
+
+                <div class="form-card">
+                    <h3 style="margin-bottom: 16px; color: #1A202C;">Dados Cadastrais</h3>
+                    <div class="perfil-resumo">
+                        <div class="perfil-item">
+                            <span>ID do Professor</span>
+                            <strong>#{{ professor.id }}</strong>
+                        </div>
+                        <div class="perfil-item">
+                            <span>Nome Completo</span>
+                            <strong>{{ professor.nome }}</strong>
+                        </div>
+                        <div class="perfil-item">
+                            <span>E-mail</span>
+                            <strong>{{ professor.email }}</strong>
+                        </div>
+                        <div class="perfil-item">
+                            <span>Login</span>
+                            <strong>{{ professor.login }}</strong>
+                        </div>
+                        <div class="perfil-item">
+                            <span>Aulas na Agenda</span>
+                            <strong>{{ len(aulas) }} aula(s)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <h3 style="margin-bottom: 16px; color: #1A202C;">Atualizar Dados da Conta</h3>
+                    <form action="/portal/perfil/atualizar" method="POST">
+                        <div class="form-group">
+                            <label for="perfil_nome">Nome completo:</label>
+                            <input type="text" id="perfil_nome" name="nome" required value="{{ professor.nome }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil_email">E-mail:</label>
+                            <input type="email" id="perfil_email" name="email" required value="{{ professor.email }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil_login">Login:</label>
+                            <input type="text" id="perfil_login" name="login" required value="{{ professor.login }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="perfil_nova_senha">Nova senha (opcional):</label>
+                            <input type="password" id="perfil_nova_senha" name="nova_senha" placeholder="Deixe em branco para manter a senha atual" autocomplete="new-password">
+                        </div>
+
+                        <button type="submit" class="btn-salvar">Salvar Alterações</button>
+                    </form>
+                </div>
+
+                <div class="form-card" style="border-color: #FEB2B2;">
+                    <h3 style="margin-bottom: 10px; color: #9B2C2C;">Excluir Conta</h3>
+                    <p style="color: #4A5568; margin-bottom: 16px;">
+                        Esta ação remove permanentemente sua conta de professor e todas as aulas vinculadas à sua agenda.
+                    </p>
+                    <form action="/portal/perfil/excluir" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir permanentemente sua conta e todas as suas aulas?');">
+                        <button type="submit" class="btn-perigo">Excluir Minha Conta</button>
                     </form>
                 </div>
             % end
@@ -245,10 +343,11 @@
                                 <th>Nome</th>
                                 <th>Tipo de Aluno</th>
                                 <th>Data</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            % for aula in aulas:
+                            % for idx, aula in enumerate(aulas):
                                 <tr>
                                     <td>
                                         <div class="aluno-cell">
@@ -260,6 +359,16 @@
                                         <span class="tipo-badge">Aluno de {{ aula.tipo_aula.lower() }} (R$ {{ f"{aula.calcular_valor():.2f}".replace('.', ',') }})</span>
                                     </td>
                                     <td>{{ aula.data_aula }}</td>
+                                    <td>
+                                        <div class="acoes-cell">
+                                            <a href="/portal?aba=alterar&indice={{ idx }}" class="btn-acao btn-acao-editar">✏️ Editar</a>
+                                            <form action="/portal/excluir" method="POST" style="margin: 0; display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta aula?');">
+                                                <input type="hidden" name="indice" value="{{ idx }}">
+                                                <input type="hidden" name="aba_retorno" value="{{ aba }}">
+                                                <button type="submit" class="btn-acao btn-acao-excluir">🗑️ Excluir</button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             % end
                         </tbody>

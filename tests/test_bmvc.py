@@ -214,3 +214,87 @@ def test_bmvc_crud_aulas_salario_fim_mes_e_sair(bmvc_isolado):
     assert status.startswith(("302", "303"))
     assert headers["Location"].endswith("/portal")
     assert ctl.current_user is None
+
+
+def test_bmvc_excluir_aula_e_crud_perfil_professor(bmvc_isolado):
+    app, ctl, caminho_prof, caminho_aulas = bmvc_isolado
+
+    # Rotas protegidas redirecionam quando deslogado
+    for path in ["/portal/excluir", "/portal/perfil/atualizar", "/portal/perfil/excluir"]:
+        status, headers, _ = chamar_wsgi(app, "POST", path, form={"indice": "0"})
+        assert status.startswith(("302", "303"))
+        assert headers["Location"].endswith("/portal")
+
+    ctl.portal_model.registrar_professor("João Silva", "joao@email.com", "joao", "123")
+    chamar_wsgi(app, "POST", "/portal", form={"login": "joao", "senha": "123"})
+
+    # Adiciona duas aulas e verifica pré-seleção na aba alterar
+    chamar_wsgi(
+        app,
+        "POST",
+        "/portal/adicionar",
+        form={"nome_aluno": "Ana Clara", "opcao_tipo": "1", "data_aula": "2026-11-10"},
+    )
+    chamar_wsgi(
+        app,
+        "POST",
+        "/portal/adicionar",
+        form={"nome_aluno": "José Lucas", "opcao_tipo": "2", "data_aula": "2026-11-15"},
+    )
+
+    status, _, body = chamar_wsgi(app, "GET", "/portal", query="aba=alterar&indice=1")
+    assert status.startswith("200")
+    assert '<option value="1" selected>' in body
+
+    # Exclui apenas a aula de índice 0 na aba /portal/excluir
+    status, _, body = chamar_wsgi(app, "GET", "/portal/excluir")
+    assert status.startswith("200")
+    assert "Excluir Aula de Aluno" in body
+
+    status, _, body = chamar_wsgi(
+        app,
+        "POST",
+        "/portal/excluir",
+        form={"indice": "0", "aba_retorno": "excluir"},
+    )
+    assert status.startswith("200")
+    assert "excluída com sucesso!" in body
+
+    portal_rec = PortalAlfabeta(str(caminho_prof), str(caminho_aulas))
+    prof_rec = portal_rec.autenticar("joao", "123")
+    assert [a.aluno.nome for a in portal_rec.listar_aulas(prof_rec)] == ["José Lucas"]
+
+    # Read e Update do perfil do professor
+    status, _, body = chamar_wsgi(app, "GET", "/portal", query="aba=perfil")
+    assert status.startswith("200")
+    assert "Dados Cadastrais" in body
+    assert "João Silva" in body
+
+    status, _, body = chamar_wsgi(
+        app,
+        "POST",
+        "/portal/perfil/atualizar",
+        form={
+            "nome": "João Pedro",
+            "email": "jp@email.com",
+            "login": "joaopedro",
+            "nova_senha": "456",
+        },
+    )
+    assert status.startswith("200")
+    assert "Dados da conta atualizados com sucesso!" in body
+
+    chamar_wsgi(app, "GET", "/sair")
+    status, _, _ = chamar_wsgi(app, "POST", "/portal", form={"login": "joaopedro", "senha": "456"})
+    assert status.startswith("200")
+    assert ctl.current_user is not None
+
+    # Exclusão da conta remove professor e aulas restantes em cascata
+    status, _, body = chamar_wsgi(app, "POST", "/portal/perfil/excluir")
+    assert status.startswith("200")
+    assert "Sua conta foi excluída com sucesso." in body
+    assert ctl.current_user is None
+
+    portal_final = PortalAlfabeta(str(caminho_prof), str(caminho_aulas))
+    assert portal_final.listar_professores() == []
+    assert portal_final.aulas == []

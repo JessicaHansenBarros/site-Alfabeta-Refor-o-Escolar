@@ -81,7 +81,15 @@ class Application:
         except ValueError as e:
             return template('cadastro.html', erro=str(e))
 
-    def portal(self, aba='adicionar', mensagem=None, erro=None, tem_vt=None, resumo=None):
+    def portal(
+        self,
+        aba='adicionar',
+        mensagem=None,
+        erro=None,
+        tem_vt=None,
+        resumo=None,
+        indice_selecionado=None
+    ):
         """
         Página principal:
         - Se logado, exibe o painel do Portal com a aba selecionada.
@@ -99,6 +107,13 @@ class Application:
             except Exception as e:
                 print(f"[Erro] Falha ao calcular salário: {e}")
 
+        indice_int = None
+        if indice_selecionado is not None and str(indice_selecionado).strip() != "":
+            try:
+                indice_int = int(indice_selecionado)
+            except (TypeError, ValueError):
+                indice_int = None
+
         aulas = self.portal_model.listar_aulas(self.current_user)
         return template(
             'portal.html',
@@ -109,6 +124,7 @@ class Application:
             erro=erro,
             tem_vt=tem_vt,
             resumo=resumo,
+            indice_selecionado=indice_int,
             enumerate=enumerate
         )
 
@@ -191,6 +207,65 @@ class Application:
             return self.portal(aba='alterar', mensagem="Aula atualizada com sucesso!")
         except Exception as e:
             return self.portal(aba='alterar', erro=f"Erro ao alterar aula: {e}")
+
+    def remover_aluno(self, indice_str, aba_retorno='excluir'):
+        """Remove uma aula específica da agenda do professor logado."""
+        if not self.current_user:
+            return redirect('/portal')
+
+        abas_validas = {
+            'adicionar', 'salario', 'alterar', 'excluir',
+            'historico', 'fim_do_mes', 'perfil'
+        }
+        aba_destino = aba_retorno if aba_retorno in abas_validas else 'excluir'
+
+        try:
+            indice = int(indice_str)
+            aula_removida = self.portal_model.remover_aula(self.current_user, indice)
+            return self.portal(
+                aba=aba_destino,
+                mensagem=(
+                    f"Aula do aluno '{aula_removida.aluno.nome}' "
+                    f"({aula_removida.data_aula}) excluída com sucesso!"
+                )
+            )
+        except Exception as e:
+            return self.portal(aba=aba_destino, erro=f"Erro ao excluir aula: {e}")
+
+    def atualizar_professor(self, nome, email, login, nova_senha):
+        """Atualiza os dados cadastrais do professor logado."""
+        if not self.current_user:
+            return redirect('/portal')
+
+        try:
+            self.portal_model.atualizar_professor(
+                professor=self.current_user,
+                novo_nome=nome,
+                novo_email=email,
+                novo_login=login,
+                nova_senha=nova_senha
+            )
+            return self.portal(
+                aba='perfil',
+                mensagem="Dados da conta atualizados com sucesso!"
+            )
+        except Exception as e:
+            return self.portal(aba='perfil', erro=f"Erro ao atualizar conta: {e}")
+
+    def excluir_professor(self):
+        """Exclui a conta do professor logado e suas aulas associadas."""
+        if not self.current_user:
+            return redirect('/portal')
+
+        try:
+            self.portal_model.remover_professor(self.current_user)
+            self.current_user = None
+            return template(
+                'login.html',
+                mensagem="Sua conta foi excluída com sucesso."
+            )
+        except Exception as e:
+            return self.portal(aba='perfil', erro=f"Erro ao excluir conta: {e}")
 
     def finalizar_mes(self):
         """Encerra e limpa a agenda do professor para o próximo mês."""

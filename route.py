@@ -48,7 +48,8 @@ def cadastro():
 @app.route('/portal')
 def portal():
     aba = request.query.getunicode('aba', 'adicionar')
-    return ctl.portal(aba=aba)
+    indice = request.query.getunicode('indice')
+    return ctl.portal(aba=aba, indice_selecionado=indice)
 
 
 @app.route('/portal', method='POST')
@@ -82,7 +83,36 @@ def portal_alterar():
         nova_data = request.forms.getunicode('nova_data')
         nova_opcao = request.forms.getunicode('nova_opcao')
         return ctl.alterar_aluno(indice, novo_nome, nova_data, nova_opcao)
-    return ctl.portal(aba='alterar')
+    indice = request.query.getunicode('indice')
+    return ctl.portal(aba='alterar', indice_selecionado=indice)
+
+
+@app.route('/portal/excluir', method=['GET', 'POST'])
+def portal_excluir():
+    if request.method == 'POST':
+        indice = request.forms.getunicode('indice')
+        aba_retorno = request.forms.getunicode('aba_retorno') or 'excluir'
+        return ctl.remover_aluno(indice, aba_retorno=aba_retorno)
+    return ctl.portal(aba='excluir')
+
+
+@app.route('/portal/perfil')
+def portal_perfil():
+    return ctl.portal(aba='perfil')
+
+
+@app.route('/portal/perfil/atualizar', method='POST')
+def portal_perfil_atualizar():
+    nome = request.forms.getunicode('nome')
+    email = request.forms.getunicode('email')
+    login = request.forms.getunicode('login')
+    nova_senha = request.forms.getunicode('nova_senha')
+    return ctl.atualizar_professor(nome, email, login, nova_senha)
+
+
+@app.route('/portal/perfil/excluir', method='POST')
+def portal_perfil_excluir():
+    return ctl.excluir_professor()
 
 
 @app.route('/portal/fim-do-mes', method='POST')

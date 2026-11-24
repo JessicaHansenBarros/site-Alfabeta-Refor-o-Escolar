@@ -24,6 +24,7 @@ classDiagram
         +agenda: AgendaMensal
         +exibir_identificacao() str
         +adicionar_aula(aula: Aula) void
+        +atualizar_dados(nome, email, login, senha) void
         +to_dict() dict
         +from_dict(dados: dict) Professor
     }
@@ -36,6 +37,7 @@ classDiagram
         +adicionar(aula: Aula) void
         +substituir(indice: int, nova_aula: Aula) void
         +obter(indice: int) Aula
+        +remover(indice: int) Aula
         +limpar() void
         +dias_trabalhados() set~str~
     }
@@ -121,8 +123,13 @@ classDiagram
         +aulas: list~Aula~
         +registrar_professor(nome, email, login, senha) Professor
         +autenticar(login, senha) Professor | None
+        +listar_professores() list~Professor~
+        +obter_professor(professor_id) Professor | None
+        +atualizar_professor(professor, novo_nome, novo_email, novo_login, nova_senha) Professor
+        +remover_professor(professor) void
         +adicionar_aula(professor, nome_aluno, data_aula, opcao_tipo) Aula
         +alterar_aula(professor, indice, novo_nome_aluno, nova_data_aula, nova_opcao_tipo) Aula
+        +remover_aula(professor, indice) Aula
         +listar_aulas(professor) list~Aula~
         +calcular_salario(professor, valor_vale_diario) ResumoSalario
         +finalizar_mes(professor) int
@@ -135,11 +142,14 @@ classDiagram
         +render(page, parameter) str
         +cadastro(erro, mensagem) str
         +registrar_professor(nome, email, login, senha) str
-        +portal(aba, mensagem, erro, tem_vt, resumo) str
+        +portal(aba, mensagem, erro, tem_vt, resumo, indice_selecionado) str
         +autenticar(login, senha) str
         +adicionar_aluno(nome_aluno, opcao_tipo, data_aula) str
         +calcular_salario(tem_vt_str) str
         +alterar_aluno(indice_str, novo_nome, nova_data, nova_opcao) str
+        +remover_aluno(indice_str, aba_retorno) str
+        +atualizar_professor(nome, email, login, nova_senha) str
+        +excluir_professor() str
         +finalizar_mes() str
         +sair() void
     }
